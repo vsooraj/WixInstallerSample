@@ -1,7 +1,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*" Name="WiXSchedulerService" Manufacturer="Ivedix" UpgradeCode="EE5761C0-D2DA-4ED6-B2C7-9B369DC1329C" Version="1.0.0.0" Language="1033">
+    <Package Id='*' Keywords='Installer' Description="Ivedix's WiX Scheduler 1.0 Installer"
+    Comments='WiX Scheduler is a registered trademark of Ivedix Ltd.' Manufacturer='Ivedix Ltd.'
+    InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+    
+    <UIRef Id="WixUI_Minimal" />
+    <WixVariable Id="WixUILicenseRtf" Value="redist\License.rtf" />
     <!-- Create a folder inside Talk Sharp called Test Service -->
-    <Package InstallerVersion="300" Compressed="yes"/>
+   
+  
     <!-- Create a folder inside Talk Sharp called Test Service -->
     <Media Id="1" Cabinet="SchedulerService.cab" EmbedCab="yes" />
     <!-- Allow upgrades and prevent downgrades -->
@@ -45,5 +52,7 @@
       <ComponentRef Id="$(var.SchedulerService.TargetFileName)" />
     <ComponentRef Id="TopShelfComponent" />
     </Feature>
+   
   </Product>
+  
 </Wix>
