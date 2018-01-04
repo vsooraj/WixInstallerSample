@@ -27,6 +27,7 @@
     <Folder Include="redist" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="redist\CreateTable.sql" />
     <Content Include="redist\License.rtf" />
     <Content Include="redist\Topshelf.dll" />
   </ItemGroup>
@@ -41,6 +42,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixSqlExtension">
+      <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
+      <Name>WixSqlExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixUIExtension">
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>

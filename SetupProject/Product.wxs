@@ -1,4 +1,4 @@
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:util='http://schemas.microsoft.com/wix/UtilExtension' xmlns:sql='http://schemas.microsoft.com/wix/SqlExtension'>
   <Product Id="*" Name="WiXSchedulerService" Manufacturer="Ivedix" UpgradeCode="EE5761C0-D2DA-4ED6-B2C7-9B369DC1329C" Version="1.0.0.0" Language="1033">
     <Package Id='*' Keywords='Installer' Description="Ivedix's WiX Scheduler 1.0 Installer"
     Comments='WiX Scheduler is a registered trademark of Ivedix Ltd.' Manufacturer='Ivedix Ltd.'
@@ -11,6 +11,9 @@
   
     <!-- Create a folder inside Talk Sharp called Test Service -->
     <Media Id="1" Cabinet="SchedulerService.cab" EmbedCab="yes" />
+
+    <util:User Id='SQLUser' Name='[SQLUSER]' Password='[SQLPASSWORD]' />
+    
     <!-- Allow upgrades and prevent downgrades -->
     <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
     <!-- Define the directory structure -->
@@ -45,13 +48,23 @@
       </Component>
     </DirectoryRef>
     <Component Id="TopShelfComponent" Directory="INSTALLFOLDER">
-      <File Source="redist\Topshelf.dll" />
+      <File Source="redist\Topshelf.dll" />  
+      <sql:SqlDatabase Id='SqlDatabase' Database='WiXTest' User='SQLUser' Server='[SQLSERVER]'
+        CreateOnInstall='yes' DropOnUninstall='yes' ContinueOnError='yes'>
+        <sql:SqlScript Id='CreateTable' BinaryKey='CreateTable' ExecuteOnInstall='yes' />
+      </sql:SqlDatabase>
     </Component>
     <!-- Tell WiX to install the files -->
     <Feature Id="MainApplication" Title="Main Application" Level="1">
       <ComponentRef Id="$(var.SchedulerService.TargetFileName)" />
     <ComponentRef Id="TopShelfComponent" />
     </Feature>
+    <Binary Id='CreateTable' SourceFile='redist\CreateTable.sql' />
+
+
+    <Property Id='SQLUSER'>sa</Property>
+    <Property Id='SQLPASSWORD'>c@b0t1234</Property>
+    <Property Id='SQLSERVER'>CS-005-LT-WS\SQLEXPRESS</Property>
    
   </Product>
   
